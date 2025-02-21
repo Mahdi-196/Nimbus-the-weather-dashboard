@@ -9,6 +9,7 @@ interface Coordinates {
 class Weather {
   city: string;
   temperature: number;
+  date: string;
   humidity: number;
   windSpeed: number;
   description: string;
@@ -16,6 +17,7 @@ class Weather {
 
   constructor(city: string, data: any) {
     this.city = city;
+    this.date = new Date(data.dt*1000).toDateString();
     this.temperature = data.main.temperature;
     this.humidity = data.main.humidity;
     this.windSpeed = data.wind.speed;
@@ -23,23 +25,23 @@ class Weather {
     this.icon = data.weather[0].icon;
   }
 }
-
+ 
 class WeatherService {
-  private baseURL = process.env.API_BASE_URL + 'data/2.5/forecast';
+  private baseURL = process.env.API_BASE_URL;
   private apiKey = process.env.OPENWEATHER_API_KEY;
 
   private async fetchLocationData(query: string) {
-    const url = `http://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=1&appid=${this.apiKey}`;
+    const url = `${this.baseURL}data/2.5/weather?q=${query}&limit=1&appid=${this.apiKey}`;
     const response = await fetch(url);
     return response.json();
   }
 
   private destructureLocationData(locationData: any): Coordinates {
-    return { lat: locationData[0].lat, lon: locationData[0].lon };
+    return { lat: locationData.coord.lat, lon: locationData.coord.lon };
   }
 
   private buildWeatherQuery(coordinates: Coordinates): string {
-    return `${this.baseURL}?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${this.apiKey}&units=metric`;
+    return `${this.baseURL}data/2.5/weather?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${this.apiKey}&units=imperial`;
   }
 
   private async fetchWeatherData(coordinates: Coordinates) {

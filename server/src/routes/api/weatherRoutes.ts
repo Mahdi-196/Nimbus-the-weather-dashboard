@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import HistoryService from '../../service/historyService.js';
-// import WeatherService from '../../service/weatherService.js';
+import WeatherService from '../../service/weatherService.js';
 
 const router = Router();
 
@@ -13,14 +13,11 @@ router.post('/', async (req: Request, res: Response) => {
       return res.status(400).json({ error: 'City name is required' });
     }
 
-    console.log('city:', cityName);
 
-    return res.json('test')
-    
-    // const weatherData = await WeatherService.getWeatherForCity(cityName);
+    const weatherData = await WeatherService.getWeatherForCity(cityName);
 
     // await HistoryService.saveCity(cityName);
-    // return res.json(weatherData); 
+    return res.json(weatherData); 
   // } catch (error) {
   //   return res.status(500).json({ error: 'Failed to fetch weather data' });
   // }

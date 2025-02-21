@@ -18,7 +18,7 @@ class Weather {
   constructor(city: string, data: any) {
     this.city = city;
     this.date = new Date(data.dt*1000).toDateString();
-    this.temperature = data.main.temperature;
+    this.temperature = data.main.temp_max;
     this.humidity = data.main.humidity;
     this.windSpeed = data.wind.speed;
     this.description = data.weather[0].description;
@@ -31,7 +31,7 @@ class WeatherService {
   private apiKey = process.env.OPENWEATHER_API_KEY;
 
   private async fetchLocationData(query: string) {
-    const url = `${this.baseURL}data/2.5/weather?q=${query}&limit=1&appid=${this.apiKey}`;
+    const url = `${this.baseURL}data/2.5/weather?q=${query}&limit=1&appid=${this.apiKey}&units=imperial`;
     const response = await fetch(url);
     return response.json();
   }
@@ -52,11 +52,17 @@ class WeatherService {
 
   async getWeatherForCity(city: string) {
     const locationData = await this.fetchLocationData(city);
-    if (!locationData.length) {
-      throw new Error('City not found');
+
+      console.log("test1: ",locationData);
+      
+
+    if (!locationData) {
+      throw new Error('');
     }
     const coordinates = this.destructureLocationData(locationData);
-    const weatherData = await this.fetchWeatherData(coordinates);
+    
+    let weatherData = await this.fetchWeatherData(coordinates);
+    weatherData = weatherData;
     return new Weather(city, weatherData);
   }
 }

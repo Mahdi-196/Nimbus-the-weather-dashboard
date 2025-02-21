@@ -47,7 +47,7 @@ const fetchWeather = async (cityName: string) => {
 
   console.log('weatherData: ', weatherData);
 
-  // renderCurrentWeather(weatherData);
+  renderCurrentWeather(weatherData);
   // renderForecast(weatherData);
 };
 
@@ -77,7 +77,11 @@ Render Functions
 */
 
 const renderCurrentWeather = (d: any): void => {
-  const { city, date, icon, iconDescription, tempF, windSpeed, humidity } =
+
+  console.log('test2: ',d);
+  
+
+  const { city, date, icon, iconDescription, temperature, windSpeed, humidity } =
     d;
 
   // convert the following to typescript
@@ -89,7 +93,7 @@ const renderCurrentWeather = (d: any): void => {
   weatherIcon.setAttribute('alt', iconDescription);
   weatherIcon.setAttribute('class', 'weather-img');
   heading.append(weatherIcon);
-  tempEl.textContent = `Temp: ${tempF}°F`;
+  tempEl.textContent = `Temp: ${temperature}°F`;
   windEl.textContent = `Wind: ${windSpeed} MPH`;
   humidityEl.textContent = `Humidity: ${humidity} %`;
 
@@ -118,7 +122,7 @@ const renderForecast = (forecast: any): void => {
 };
 
 const renderForecastCard = (forecast: any) => {
-  const { date, icon, iconDescription, tempF, windSpeed, humidity } = forecast;
+  const { date, icon, iconDescription, temperature, windSpeed, humidity } = forecast;
 
   const { col, cardTitle, weatherIcon, tempEl, windEl, humidityEl } =
     createForecastCard();
@@ -130,7 +134,7 @@ const renderForecastCard = (forecast: any) => {
     `https://openweathermap.org/img/w/${icon}.png`
   );
   weatherIcon.setAttribute('alt', iconDescription);
-  tempEl.textContent = `Temp: ${tempF} °F`;
+  tempEl.textContent = `Temp: ${temperature} °F`;
   windEl.textContent = `Wind: ${windSpeed} MPH`;
   humidityEl.textContent = `Humidity: ${humidity} %`;
 

@@ -45,10 +45,22 @@ const fetchWeather = async (cityName: string) => {
 
   const weatherData = await response.json();
 
-  console.log('weatherData: ', weatherData);
 
   renderCurrentWeather(weatherData);
-  // renderForecast(weatherData);
+};
+
+const fetchforecast = async (cityName: string) => {
+  const response = await fetch('/api/weather/forecast', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ cityName }),
+  });
+
+  const forecast = await response.json();
+
+  renderForecast(forecast);
 };
 
 const fetchSearchHistory = async () => {
@@ -76,10 +88,7 @@ Render Functions
 
 */
 
-const renderCurrentWeather = (d: any): void => {
-
-  console.log('test2: ',d);
-  
+const renderCurrentWeather = (d: any): void => {  
 
   const { city, date, icon, iconDescription, temperature, windSpeed, humidity } =
     d;
@@ -116,13 +125,20 @@ const renderForecast = (forecast: any): void => {
     forecastContainer.append(headingCol);
   }
 
-  for (let i = 0; i < forecast.length; i++) {
+  for (let i = 0; i < forecast.length; i=i+8) {
+    console.log(forecast[i])
     renderForecastCard(forecast[i]);
   }
 };
 
 const renderForecastCard = (forecast: any) => {
-  const { date, icon, iconDescription, temperature, windSpeed, humidity } = forecast;
+
+  const  date = forecast.dt_txt.slice(0,10);
+  const  temperature = forecast.main.temp_max;
+  const  humidity = forecast.main.humidity;
+  const  windSpeed = forecast.wind.speed;
+  const  icon = forecast.weather[0].icon;
+  const  iconDescription = forecast.weather[0].description;
 
   const { col, cardTitle, weatherIcon, tempEl, windEl, humidityEl } =
     createForecastCard();
@@ -262,6 +278,7 @@ const handleSearchFormSubmit = (event: any): void => {
 
   const search: string = searchInput.value.trim();
   fetchWeather(search).then(() => {
+    fetchforecast(search);
     getAndRenderHistory();
   });
   searchInput.value = '';

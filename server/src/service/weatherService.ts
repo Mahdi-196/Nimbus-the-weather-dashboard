@@ -51,11 +51,7 @@ class WeatherService {
   }
 
   async getWeatherForCity(city: string) {
-    const locationData = await this.fetchLocationData(city);
-
-      console.log("test1: ",locationData);
-      
-
+    const locationData = await this.fetchLocationData(city);      
     if (!locationData) {
       throw new Error('');
     }

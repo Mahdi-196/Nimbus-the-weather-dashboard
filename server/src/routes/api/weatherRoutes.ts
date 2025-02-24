@@ -1,6 +1,8 @@
 import { Router, Request, Response } from 'express';
 import HistoryService from '../../service/historyService.js';
 import WeatherService from '../../service/weatherService.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const router = Router();
 
@@ -14,15 +16,23 @@ router.post('/', async (req: Request, res: Response) => {
     }
 
 
-    const weatherData = await WeatherService.getWeatherForCity(cityName);
-
-    console.log('route: ',weatherData);
-    
+    const weatherData = await WeatherService.getWeatherForCity(cityName);    
 
     // await HistoryService.saveCity(cityName);
     return res.json(weatherData); 
   // } catch (error) {
   //   return res.status(500).json({ error: 'Failed to fetch weather data' });
+  // }
+});
+
+router.post('/forecast', async (req: Request, res: Response) => {
+  const city = req.body.cityName;
+
+  const url = `${process.env.API_BASE_URL}data/2.5/forecast?q=${city}&limit=1&appid=${process.env.OPENWEATHER_API_KEY}&units=imperial`;
+
+  const forecast = await( await fetch(url)).json()
+    console.log('forecast2: ',forecast);
+    return res.json(forecast.list); 
   // }
 });
 

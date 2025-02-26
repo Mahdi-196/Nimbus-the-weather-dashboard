@@ -18,7 +18,7 @@ router.post('/', async (req: Request, res: Response) => {
 
     const weatherData = await WeatherService.getWeatherForCity(cityName);    
 
-    // await HistoryService.saveCity(cityName);
+    await HistoryService.saveCity(cityName);
     return res.json(weatherData); 
   // } catch (error) {
   //   return res.status(500).json({ error: 'Failed to fetch weather data' });
@@ -41,9 +41,8 @@ router.post('/forecast', async (req: Request, res: Response) => {
 // GET search history
 router.get('/history', async (_req: Request, res: Response) => {
   // try {
-    // const history = await HistoryService.getHistory();
-    // return res.json(history); 
-  res.json('test'); 
+    const history = await HistoryService.getHistory();
+    return res.json(history); 
   // } catch (error) {
   //   return res.status(500).json({ error: 'Failed to retrieve search history' });
   // }

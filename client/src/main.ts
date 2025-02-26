@@ -70,6 +70,7 @@ const fetchSearchHistory = async () => {
       'Content-Type': 'application/json',
     },
   });
+  
   return history;
 };
 
@@ -160,7 +161,11 @@ const renderForecastCard = (forecast: any) => {
 };
 
 const renderSearchHistory = async (searchHistory: any) => {
-  const historyList = await searchHistory.json();
+  
+  const historyList = await (await searchHistory()).json();
+
+  console.log('test3: ',historyList);
+  
 
   if (searchHistoryContainer) {
     searchHistoryContainer.innerHTML = '';
@@ -255,7 +260,7 @@ const createHistoryDiv = () => {
 };
 
 const buildHistoryListItem = (city: any) => {
-  const newBtn = createHistoryButton(city.name);
+  const newBtn = createHistoryButton(city.city);
   const deleteBtn = createDeleteButton();
   deleteBtn.dataset.city = JSON.stringify(city);
   const historyDiv = createHistoryDiv();
@@ -304,9 +309,9 @@ Initial Render
 */
 
 const getAndRenderHistory = () =>
-  fetchSearchHistory().then(renderSearchHistory);
+  fetchSearchHistory().then(()=>renderSearchHistory(fetchSearchHistory));
 
 searchForm?.addEventListener('submit', handleSearchFormSubmit);
 searchHistoryContainer?.addEventListener('click', handleSearchHistoryClick);
 
-// getAndRenderHistory();
+getAndRenderHistory();

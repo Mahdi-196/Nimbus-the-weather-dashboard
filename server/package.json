@@ -5,10 +5,10 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "build": "yarn tsc",
-    "start": "yarn build && node dist/server.js --ignore client",
-    "dev": "yarn nodemon",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "build": "yarn tsc",
+  "start": "yarn build && node dist/server.js",
+  "dev": "yarn nodemon",
+  "test": "echo \"Error: no test specified\" && exit 1"
   },
   "nodemonConfig": {
     "watch": [

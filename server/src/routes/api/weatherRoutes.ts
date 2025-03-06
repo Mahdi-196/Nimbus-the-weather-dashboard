@@ -28,7 +28,7 @@ router.post('/', async (req: Request, res: Response) => {
 router.post('/forecast', async (req: Request, res: Response) => {
   const city = req.body.cityName;
 
-  const url = `${process.env.API_BASE_URL}data/2.5/forecast?q=${city}&limit=1&appid=${process.env.OPENWEATHER_API_KEY}&units=imperial`;
+  const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&limit=1&appid=${process.env.OPENWEATHER_API_KEY}&units=imperial`;
 
   const forecast = await( await fetch(url)).json()
     console.log('forecast2: ',forecast);

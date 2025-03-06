@@ -27,21 +27,21 @@ class Weather {
 }
  
 class WeatherService {
-  private baseURL = process.env.API_BASE_URL;
   private apiKey = process.env.OPENWEATHER_API_KEY;
 
   private async fetchLocationData(query: string) {
-    const url = `${this.baseURL}data/2.5/weather?q=${query}&limit=1&appid=${this.apiKey}&units=imperial`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${query}&limit=1&appid=${this.apiKey}&units=imperial`;
     const response = await fetch(url);
     return response.json();
   }
 
   private destructureLocationData(locationData: any): Coordinates {
+    
     return { lat: locationData.coord.lat, lon: locationData.coord.lon };
   }
 
   private buildWeatherQuery(coordinates: Coordinates): string {
-    return `${this.baseURL}data/2.5/weather?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${this.apiKey}&units=imperial`;
+    return `https://api.openweathermap.org/data/2.5/weather?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${this.apiKey}&units=imperial`;
   }
 
   private async fetchWeatherData(coordinates: Coordinates) {
@@ -51,7 +51,8 @@ class WeatherService {
   }
 
   async getWeatherForCity(city: string) {
-    const locationData = await this.fetchLocationData(city);      
+    const locationData = await this.fetchLocationData(city);    
+    
     if (!locationData) {
       throw new Error('');
     }

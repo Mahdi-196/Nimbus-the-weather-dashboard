@@ -64,7 +64,7 @@ https://drive.google.com/file/d/1otaZz_1Sh39Uqulps6hOC8J2GXdIV5sF/view
 
 ## 🌍 Deployment
 
-https://nimbus-the-weather-dashboard-2.onrender.com
+https://nimbus-the-weather-dashboard-3.onrender.com/
 
 ## 🏗️ Technologies Used
 
